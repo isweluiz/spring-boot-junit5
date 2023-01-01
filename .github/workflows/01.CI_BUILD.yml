@@ -2,16 +2,6 @@
 name: CI + CD - Build
 
 on: push
-  #   branches:
-  #     - main
-  #     - dev*
-  #   paths-ignore:
-  #     - 'operations/**'
-  # pull_request:
-  #   types: [opened, synchronize, reopened, ready_for_review]
-  #   branches:
-  #     - main
-  #     - dev
 
 jobs:
   build_java_and_test:
@@ -28,12 +18,12 @@ jobs:
           java-version: '14'
           cache: maven
 
-      # - name: Cache Maven packages
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/.m2
-      #     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-      #     restore-keys: ${{ runner.os }}-m2
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Test with Maven
         run: mvn -B test --file pom.xml
@@ -41,5 +31,3 @@ jobs:
       - name: run maven build
         run: |
           mvn clean install  
-
-
