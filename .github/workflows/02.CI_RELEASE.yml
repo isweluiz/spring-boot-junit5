@@ -4,11 +4,6 @@ name: CI + CD - Create Release
 on: 
   workflow_dispatch:
     inputs:
-
-      selectedBranch:
-        description: "Branch to create a release:"
-        required: True
-        type: branch
       TagName:
         description: 'Tag Name:'
         required: true 
