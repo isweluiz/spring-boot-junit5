@@ -1,0 +1,46 @@
+---
+name: CI + CD - Create Release 
+
+on: 
+  workflow_dispatch:
+    inputs:
+
+      selectedBranch:
+        description: "Branch to create a release:"
+        required: True
+        type: branch
+      TagName:
+        description: 'Tag Name:'
+        required: true 
+        type: string              
+
+jobs:
+
+  create_release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    steps:
+      
+      - name: Checkout the repo
+        uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
+        with:
+          fetch-depth: 0 
+
+      - name: Extract release notes
+        id: extract-release-notes       
+        uses: ffurrer2/extract-release-notes@v1
+
+      - name: Create new Github release tag
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: PRE-${{github.event.inputs.selectedEnvironment}}
+          release_name: Release -${{github.event.inputs.selectedEnvironment}}
+          draft: false
+          prerelease: true
+          body: |
+            :rocket: New Pre-Release
+            ${{ steps.extract-release-notes.outputs.release_notes }}
+
