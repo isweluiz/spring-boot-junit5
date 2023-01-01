@@ -13,6 +13,7 @@ on:
         description: "Branch to use:"
         required: True
         default: "main"
+        type: branch
 
 jobs:
 
@@ -47,5 +48,4 @@ jobs:
           draft: false
           prerelease: true
           body_path: $GITHUB_WORKSPACE/CHANGELOG.md
-
 
