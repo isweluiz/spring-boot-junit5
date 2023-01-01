@@ -29,8 +29,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: PRE-${{github.event.inputs.selectedEnvironment}}
-          release_name: Release -${{github.event.inputs.selectedEnvironment}}
+          tag_name: PRE-${{github.event.inputs.TagName}}
+          release_name: Release-${{github.event.inputs.TagName}}
           draft: false
           prerelease: true
           body: |
