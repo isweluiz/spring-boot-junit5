@@ -9,11 +9,11 @@ on:
         required: true 
         type: string              
 
-      selectedBranch:
-        description: "Branch to use:"
-        required: True
-        default: "main"
-        type: branch
+      # selectedBranch:
+      #   description: "Branch to use:"
+      #   required: True
+      #   default: "main"
+      #   type: branch
 
 jobs:
 
@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
         with:
           fetch-depth: 0
-          ref: ${{ github.event.inputs.selectedBranch }}
+          #ref: ${{ github.event.inputs.selectedBranch }}
         
       - name: Show environment
         run: env | grep ^GITHUB
@@ -47,5 +47,5 @@ jobs:
           release_name: Release-${{github.event.inputs.TagName}}
           draft: false
           prerelease: true
-          body_path: $GITHUB_WORKSPACE/CHANGELOG.md
+          body_path: CHANGELOG.md
 
