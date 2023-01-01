@@ -9,15 +9,24 @@ on:
         required: true 
         type: string              
 
-      # selectedBranch:
-      #   description: "Branch to use:"
-      #   required: True
-      #   default: "main"
-      #   type: branch
+      CreateRelease:
+        description: 'Create Pre-Release?'
+        required: false
+        type: boolean
 
 jobs:
 
+  echo_job:
+    name: echo_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo job 
+        run: |
+          echo Create Release? "${{github.event.inputs.CreateRelease}}"
+          echo New Tag: "${{github.event.inputs.TagName}}"
+
   create_release:
+    if: ${{github.event.inputs.CreateRelease == 'True' }}
     runs-on: ubuntu-latest
     name: Create Release
     steps:
