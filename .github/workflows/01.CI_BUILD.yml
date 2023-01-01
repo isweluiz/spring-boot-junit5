@@ -1,15 +1,19 @@
 ---
 name: CI + CD - Build
 
-on: 
+on:
   push:
-    - main
-    - dev* 
+    branches:
+      - main
+      - dev*
+    paths-ignore:
+      - 'operations/**'
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
-      - dev* 
+      - dev*
+  workflow_dispatch:
 
 jobs:
   build_java_and_test:
