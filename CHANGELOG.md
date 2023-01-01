@@ -1,3 +1,5 @@
+# Changelog
+
 ### Added
 
 - Danish translation from [@frederikspang](https://github.com/frederikspang).
