@@ -19,9 +19,9 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
 
-      - name: Extract release notes
-        id: extract-release-notes       
-        uses: ffurrer2/extract-release-notes@v1
+      # - name: Extract release notes
+      #   id: extract-release-notes       
+      #   uses: ffurrer2/extract-release-notes@v1
 
       - name: Create new Github release tag
         id: create-release
@@ -33,7 +33,6 @@ jobs:
           release_name: Release-${{github.event.inputs.TagName}}
           draft: false
           prerelease: true
-          body: |
-            :rocket: New Pre-Release
-            ${{ steps.extract-release-notes.outputs.release_notes }}
+          body_path: $GITHUB_WORKSPACE/CHANGELOG.md
+
 
