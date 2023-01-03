@@ -13,7 +13,8 @@ on:
         description: 'Create Pre-Release?'
         required: false
         type: boolean
-
+env: 
+  prerelease: PRE-
 jobs:
 
   echo_job:
@@ -22,8 +23,8 @@ jobs:
     steps:
       - name: Echo job 
         run: |
-          echo "${{github.event.inputs.CreateRelease}}"
-          echo "${{github.event.inputs.TagName}}"
+          echo Create Release? "${{github.event.inputs.CreateRelease}}"
+          echo New Tag: "${{github.event.inputs.TagName}}"
 
   create_release:
     if: ${{github.event.inputs.CreateRelease == 'True' }}
@@ -52,8 +53,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: PRE-${{github.event.inputs.TagName}}
-          release_name: Release-${{github.event.inputs.TagName}}
+          tag_name: $prerelease${{github.event.inputs.TagName}}
+          release_name: $prerelease${{github.event.inputs.TagName}}
           draft: false
           prerelease: true
           body_path: CHANGELOG.md

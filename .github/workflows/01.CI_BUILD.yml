@@ -26,8 +26,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Test with Maven
+        id: maven-tests
         run: mvn -B test --file pom.xml
 
       - name: run maven build
         run: |
-          mvn clean install  
+          mvn clean install -Dmaven.test.skip=true
