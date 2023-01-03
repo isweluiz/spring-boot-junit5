@@ -9,19 +9,43 @@ on:
         required: true 
         type: string              
 
+      CreateRelease:
+        description: 'Create Pre-Release?'
+        required: false
+        type: boolean
+env: 
+  prerelease: PR-
 jobs:
 
+  echo_job:
+    name: echo_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo job 
+        run: |
+          echo Create Release? "${{github.event.inputs.CreateRelease}}"
+          echo New Tag: "${{github.event.inputs.TagName}}"
+
   create_release:
+    if: ${{github.event.inputs.CreateRelease == 'True' }}
     runs-on: ubuntu-latest
     name: Create Release
     steps:
       
       - name: Checkout the repo
         uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
+        with:
+          fetch-depth: 0
+          #ref: ${{ github.event.inputs.selectedBranch }}
+        
+      - name: Show environment
+        run: env | grep ^GITHUB
+      - name: Show ref v1
+        run: echo "===============> Version from $GITHUB_REF"
 
-      - name: Extract release notes
-        id: extract-release-notes       
-        uses: ffurrer2/extract-release-notes@v1
+      # - name: Extract release notes
+      #   id: extract-release-notes       
+      #   uses: ffurrer2/extract-release-notes@v1
 
       - name: Create new Github release tag
         id: create-release
@@ -29,11 +53,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: PRE-${{github.event.inputs.TagName}}
-          release_name: Release-${{github.event.inputs.TagName}}
+          tag_name: $prerelease${{github.event.inputs.TagName}}
+          release_name: $prerelease${{github.event.inputs.TagName}}
           draft: false
           prerelease: true
-          body: |
-            :rocket: New Pre-Release
-            ${{ steps.extract-release-notes.outputs.release_notes }}
+          body_path: CHANGELOG.md
 
