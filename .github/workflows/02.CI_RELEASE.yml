@@ -13,8 +13,7 @@ on:
         description: 'Create Pre-Release?'
         required: false
         type: boolean
-env: 
-  prerelease: PRE-
+
 jobs:
 
   echo_job:
@@ -52,9 +51,10 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: PRE-
         with:
-          tag_name: $prerelease${{github.event.inputs.TagName}}
-          release_name: $prerelease${{github.event.inputs.TagName}}
+          tag_name: ${{ env.prerelease }}${{ github.event.inputs.TagName }}
+          release_name: ${{ env.prerelease }}{{ github.event.inputs.TagName }}
           draft: false
           prerelease: true
           body_path: CHANGELOG.md
